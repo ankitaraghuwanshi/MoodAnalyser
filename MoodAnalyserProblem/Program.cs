@@ -2,7 +2,12 @@
 {
     public class MoodAnlyser
     {
-        public string Analysemood(string message)
+         string message;
+        public MoodAnlyser(string message)
+        {
+            this.message = message;
+        }
+        public string Analysemood()
         {
             if (message.Contains("SAD"))
                 return "SAD";
