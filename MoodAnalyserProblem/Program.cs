@@ -2,16 +2,27 @@
 {
     public class MoodAnlyser
     {
-         string message;
+        string message;
+        public MoodAnlyser()
+        {
+
+        }
         public MoodAnlyser(string message)
         {
             this.message = message;
         }
         public string Analysemood()
         {
-            if (message.Contains("SAD"))
-                return "SAD";
-            else return "HAPPY";
+            try
+            {
+                if (message.Contains("SAD"))
+                    return "SAD";
+                else return "HAPPY";
+            }
+            catch(NullReferenceException)
+            {
+                return "HAPPY";
+            }
         }
         static void Main(string[] args)
         {

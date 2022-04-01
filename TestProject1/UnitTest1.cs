@@ -26,12 +26,10 @@ namespace MoodAnalyserTesting
             //assert
             Assert.AreEqual("SAD", message);
         }
-
-
         //summary//Refactor
         /// TC-1.2 Given "I am in Any mood" message should return HAPPY//
         [Test]
-        public void Give_msg_When_SouldReturnHappy()
+        public void Give_msg_When_ShouldReturnHappy()
         {
             moodAnlyser = new MoodAnlyser("I am in ANY mood");
             //act
@@ -39,5 +37,21 @@ namespace MoodAnalyserTesting
             //assert
             Assert.AreEqual("HAPPY", message);
         }
+
+        //summary//Handling null exception//
+        //TC-2.1 given null mood should return Happy//
+        [Test]
+        public void Give_msg_WhenNull_ShouldReturnHappy()
+        {
+            moodAnlyser = new MoodAnlyser();
+            //act
+            string message = moodAnlyser.Analysemood();
+            //assert
+            Assert.AreEqual("HAPPY", message);
+        }
+
+
+
+
     }
 }
