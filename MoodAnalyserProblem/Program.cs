@@ -1,4 +1,6 @@
-﻿namespace MoodAnalyserSpace
+﻿using MoodAnalyserProblem;
+
+namespace MoodAnalyserSpace
 {
     public class MoodAnlyser
     {
@@ -15,13 +17,17 @@
         {
             try
             {
-                if (message.Contains("SAD"))
+                if (message.Equals(string.Empty))
+                    throw new MoodAnalyserCustomexception(MoodAnalyserCustomexception.ExceptionType.EMPTY_MOOD, "mood should not empty");
+                else if (this.message.Contains("SAD"))
                     return "SAD";
-                else return "HAPPY";
+                else
+                    return "HAPPY";
             }
             catch(NullReferenceException)
             {
-                return "HAPPY";
+                //throw new MoodAnalyserCustomexception(MoodAnalyserCustomexception.ExceptionType.EMPTY_MOOD, "mood should not be null");
+                    return "HAPPY";
             }
         }
         static void Main(string[] args)

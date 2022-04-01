@@ -1,3 +1,4 @@
+using MoodAnalyserProblem;
 using MoodAnalyserSpace;
 using NUnit.Framework;
 
@@ -39,7 +40,7 @@ namespace MoodAnalyserTesting
         }
 
         //summary//Handling null exception//
-        //TC-2.1 given null mood should return Happy//
+        //TC-2.1 and TC-3.1 given null mood should return Happy//
         [Test]
         public void Give_msg_WhenNull_ShouldReturnHappy()
         {
@@ -49,9 +50,24 @@ namespace MoodAnalyserTesting
             //assert
             Assert.AreEqual("HAPPY", message);
         }
-
-
-
-
+        //summary //customexception
+        //TC-3.2 Given Empty Mood
+        //Should ThrowMoodAnalys is Exception indicating Empty Mood
+        [Test]
+        public void give_msg_When_EmptyCustomexception()
+        {    //arrange
+            string message = "";
+            string expected = "mood should not empty";
+            try
+            {
+                //act
+                moodAnlyser = new MoodAnlyser(message);
+            }
+            catch(MoodAnalyserCustomexception exception)
+            {
+               //assert
+               Assert.AreEqual(expected, exception.Message);
+            }  
+        }
     }
 }
