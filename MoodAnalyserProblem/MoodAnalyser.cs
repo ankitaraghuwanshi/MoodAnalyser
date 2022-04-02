@@ -20,7 +20,7 @@ namespace MoodAnalyserSpace
             {
                 if (message.Equals(string.Empty))
                     throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.EmptyMood, "Mood should not be Empty");
-                else if (message.ToLower().Contains("sad"))
+                else if (message.Contains("sad"))
                     return "SAD";
                 else
                     return "HAPPY";
