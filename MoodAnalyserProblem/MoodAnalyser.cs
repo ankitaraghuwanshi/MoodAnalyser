@@ -4,17 +4,17 @@ namespace MoodAnalyserSpace
 {
     public class MoodAnalyser
     {
-        private string message;
-        public MoodAnalyser()
+        public string message;//variable
+        public MoodAnalyser()//default constructor
         {
 
         }
-        public MoodAnalyser(string message)
+        public MoodAnalyser(string message)//parameterized contructor
         {
             this.message = message;
         }
 
-        public string AnalyseMood()
+        public string AnalyseMood()//method for type of mood
         {
             try
             {

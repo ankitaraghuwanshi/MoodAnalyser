@@ -11,9 +11,10 @@ namespace MoodAnalysers
         {
             EmptyMood,
             NullMood,
-            NoSuchClass,
-            NoSuchConstructor,
-            NoSuchField,
+            No_Such_Class,
+            No_Such_Constructor,
+            No_Such_Field,
+            No_such_Method,
         }
 
         public MoodAnalyserCustomException(ExceptionType type, string message) : base(message)

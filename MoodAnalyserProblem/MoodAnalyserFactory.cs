@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace MoodAnalysers
 {
@@ -32,26 +33,77 @@ namespace MoodAnalysers
                 throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Constructor, "Constructor not found");
             }
         }
-        public static object CreateMoodAnalyserParameterisedConstructor(string className, string constructorName)
+
+        //UC5
+        public static object CreateMoodAnalyserParameterisedConstructor(string className, string constructorName, string message)
         {
             Type type = typeof(MoodAnalyser);
-            if (type.FullName.Equals(className) || type.Name.Equals(className))
+            try
             {
-                if (type.Name.Equals(constructorName))
+                if (type.FullName.Equals(className) || type.Name.Equals(className))
                 {
-                    ParaConstructor paraconstructor = type.GetConstructor(new[] { typeof(string) });
-                    object obj = paraconstructor.Invoke(new[] { "Happy" });
-                    return obj;
+                    if (type.Name.Equals(constructorName))
+                    {
+                        ConstructorInfo paraconstructor = type.GetConstructor(new[] { typeof(string) });
+                        object obj = paraconstructor.Invoke(new[] { message });
+                        return obj;
+                    }
+                    else
+                    {
+                        throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Constructor, "Constructor not found");
+                    }
                 }
                 else
                 {
-                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Constructor, "Constructor not found");
+                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Class, "Class not found");
                 }
             }
-            else
+            catch(Exception ex)
             {
-                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Class, "Class not found");
+                return ex;
             }
+
+
         }
+
+        // UC6
+        public static string InvokeAnalyserMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType(" MoodAnalyserSpace.MoodAnalyser");
+                object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor(" MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser", message);
+
+                MethodInfo analyserMoodInfo = type.GetMethod(methodName);
+                object mood = analyserMoodInfo.Invoke(moodAnalyseObject, null);
+                return mood.ToString();
+
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "constructor not found");
+
+
+            }
+
+            //public static string InvokeAnalyseMood(string message, string methodName)
+            //{
+            //    try
+            //    {
+            //        Type type = Type.GetType("MoodAnalyzer.AnalyzeMood");
+            //        object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor("MoodAnalyzer.AnalyzeMood", "AnalyzeMood", message);
+            //        MethodInfo methodInfo = type.GetMethod(methodName);
+            //        object mood = methodInfo.Invoke(moodAnalyseObject, null);
+            //        return mood.ToString();
+            //    }
+            //    catch (NullReferenceException)
+            //    {
+            //        throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "method not found");
+
+            //    }
+        }
+
+
     }
+    
 }
