@@ -66,44 +66,4 @@ namespace MoodAnalysers
 
         }
 
-        // UC6
-        public static string InvokeAnalyserMood(string message, string methodName)
-        {
-            try
-            {
-                Type type = Type.GetType(" MoodAnalyserSpace.MoodAnalyser");
-                object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor(" MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser", message);
-
-                MethodInfo analyserMoodInfo = type.GetMethod(methodName);
-                object mood = analyserMoodInfo.Invoke(moodAnalyseObject, null);
-                return mood.ToString();
-
-            }
-            catch (NullReferenceException)
-            {
-                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "constructor not found");
-
-
-            }
-
-            //public static string InvokeAnalyseMood(string message, string methodName)
-            //{
-            //    try
-            //    {
-            //        Type type = Type.GetType("MoodAnalyzer.AnalyzeMood");
-            //        object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor("MoodAnalyzer.AnalyzeMood", "AnalyzeMood", message);
-            //        MethodInfo methodInfo = type.GetMethod(methodName);
-            //        object mood = methodInfo.Invoke(moodAnalyseObject, null);
-            //        return mood.ToString();
-            //    }
-            //    catch (NullReferenceException)
-            //    {
-            //        throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "method not found");
-
-            //    }
-        }
-
-
-    }
-    
-}
+    } 
