@@ -64,5 +64,24 @@ namespace MoodAnalyserSpace
                 throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "constructor not found");
             }
         }
+        public static string SetField(string Message, string FieldName)
+        {
+            try
+            {
+                MoodAnalyser moodAnalyser = new MoodAnalyser();
+                Type type = typeof(MoodAnalyser);
+                if (Message == null)
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NULL_MOOD, "Mood should not be null");
+                }
+                FieldInfo Field = type.GetField(FieldName, BindingFlags.Public | BindingFlags.Instance);
+                Field.SetValue(moodAnalyser, Message);
+                return moodAnalyser.mood();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_FIELDS, "field not found");
+            }
+        }
     }
 }

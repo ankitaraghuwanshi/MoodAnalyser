@@ -29,5 +29,10 @@ namespace MoodAnalyserSpace
             { throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NULL_MOOD, "Mood should not be null"); }
 
         }
+
+        internal string mood()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

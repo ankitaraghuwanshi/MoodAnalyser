@@ -140,5 +140,17 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, exception.exceptionType);
             }
         }
+        [Test]
+        public void GivenMessage_WhenNull_UsingReftlectionSetField_ShouldThrowMoodAnalysisException()
+        {
+            try
+            {
+                string message = MoodAnalyserFactory.SetField(null, "Message");
+            }
+            catch (MoodAnalyserException exception)
+            {
+                Assert.AreEqual(MoodAnalyserException.ExceptionType.NULL_MOOD, exception.exceptionType);
+            }
+        }
     }
 }
