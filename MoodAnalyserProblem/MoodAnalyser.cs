@@ -1,36 +1,33 @@
-﻿using MoodAnalysers;
-using System;
+﻿using System;
 namespace MoodAnalyserSpace
 {
     public class MoodAnalyser
     {
-        public string message;//variable
-        public MoodAnalyser()//default constructor
-        {
+        string Message;
 
-        }
-        public MoodAnalyser(string message)//parameterized contructor
+        public MoodAnalyser()
         {
-            this.message = message;
         }
 
-        public string AnalyseMood()//method for type of mood
+        public MoodAnalyser(string Message)
+        {
+            this.Message = Message;
+        }
+
+        public string AnalyseMood()
         {
             try
             {
-                if (message.Equals(string.Empty))
-                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.EmptyMood, "Mood should not be Empty");
-                else if (message.Contains("sad"))
+                if (Message.ToLower().Contains("sad"))
                     return "SAD";
-                else
-                    return "HAPPY";
+                else if (Message.Equals(String.Empty))
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.EMPTY_MOOD, "Mood should not be empty");
+                else return "HAPPY";
+
             }
             catch (NullReferenceException)
-            {
-                //throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NullMood, "Mood should not be Null");
-                return "HAPPY";
-            }
-        }
+            { throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NULL_MOOD, "Mood should not be null"); }
 
+        }
     }
 }

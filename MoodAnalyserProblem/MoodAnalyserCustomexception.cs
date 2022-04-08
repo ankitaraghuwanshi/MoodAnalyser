@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace MoodAnalysers
+namespace MoodAnalyserSpace
 {
-    public class MoodAnalyserCustomException : Exception
+    public class MoodAnalyserException : Exception
     {
-        ExceptionType type;
         public enum ExceptionType
         {
-            EmptyMood,
-            NullMood,
-            No_Such_Class,
-            No_Such_Constructor,
-            No_Such_Field,
-            No_such_Method,
+            EMPTY_MOOD,
+            NULL_MOOD,
+            NO_SUCH_CLASS,
+            NO_SUCH_METHOD
         }
 
-        public MoodAnalyserCustomException(ExceptionType type, string message) : base(message)
+        public ExceptionType exceptionType;
+        public MoodAnalyserException(ExceptionType exceptionType, string message) : base(message)
         {
-            this.type = type;
+            this.exceptionType = exceptionType;
         }
     }
 }

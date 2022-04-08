@@ -1,109 +1,68 @@
-﻿using MoodAnalyserSpace;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
-namespace MoodAnalysers
+namespace MoodAnalyserSpace
 {
     public class MoodAnalyserFactory
     {
-        public static object CreateMoodAnalyser(string className, string constructorName)
+        public static object GetMoodAnalyserObject(string ClassName, string ConstructorName)
         {
-            string pattern = @"." + constructorName + "$";
-            Match result = Regex.Match(className, pattern);
-
+            string pattern = @"." + ConstructorName + "$";
+            Match result = Regex.Match(ClassName, pattern);
             if (result.Success)
             {
                 try
                 {
                     Assembly assembly = Assembly.GetExecutingAssembly();
-                    Type moodAnalyser = assembly.GetType(className);
-                    return Activator.CreateInstance(moodAnalyser);
+                    Type MoodAnalyserType = assembly.GetType(ClassName);
+                    return Activator.CreateInstance(MoodAnalyserType);
                 }
                 catch (ArgumentNullException)
                 {
-                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Class, "Class not found");
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_CLASS, "class not found");
                 }
             }
             else
-            {
-                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Constructor, "Constructor not found");
-            }
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "constructor not found");
         }
-
-        //UC5
-        public static object CreateMoodAnalyserParameterisedConstructor(string className, string constructorName, string message)
+        public static object GetMoodAnalyserObjectWithParamterizedConstructor(string ClassName, string ConstructorName, string Message)
         {
             Type type = typeof(MoodAnalyser);
-            try
+            if (type.Name.Equals(ClassName) || type.FullName.Equals(ClassName))
             {
-                if (type.FullName.Equals(className) || type.Name.Equals(className))
+                if (type.Name.Equals(ConstructorName))
                 {
-                    if (type.Name.Equals(constructorName))
-                    {
-                        ConstructorInfo paraconstructor = type.GetConstructor(new[] { typeof(string) });
-                        object obj = paraconstructor.Invoke(new[] { message });
-                        return obj;
-                    }
-                    else
-                    {
-                        throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Constructor, "Constructor not found");
-                    }
+                    ConstructorInfo ctr = type.GetConstructor(new[] { typeof(string) });
+                    object instance = ctr.Invoke(new object[] { Message });
+                    return instance;
                 }
                 else
                 {
-                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_Such_Class, "Class not found");
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "constructor not found");
                 }
             }
-            catch(Exception ex)
-            {
-                return ex;
-            }
-
-
+            else
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_CLASS, "class not found");
         }
-
-        // UC6
-        public static string InvokeAnalyserMood(string message, string methodName)
+        public static string InvokeAnalyseMood(string Message, string MethodName)
         {
             try
             {
-                Type type = Type.GetType(" MoodAnalyserSpace.MoodAnalyser");
-                object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor(" MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser", message);
-
-                MethodInfo analyserMoodInfo = type.GetMethod(methodName);
-                object mood = analyserMoodInfo.Invoke(moodAnalyseObject, null);
+                Type type = Type.GetType("MoodAnalyserSpace.MoodAnalyser");
+                object MoodAnalyserObject = GetMoodAnalyserObjectWithParamterizedConstructor("MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser", Message);
+                MethodInfo AnalyseMoodInfo = type.GetMethod(MethodName);
+                object mood = AnalyseMoodInfo.Invoke(MoodAnalyserObject, null);
                 return mood.ToString();
-
             }
             catch (NullReferenceException)
             {
-                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "constructor not found");
-
-
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "constructor not found");
             }
-
-            //public static string InvokeAnalyseMood(string message, string methodName)
-            //{
-            //    try
-            //    {
-            //        Type type = Type.GetType("MoodAnalyzer.AnalyzeMood");
-            //        object moodAnalyseObject = MoodAnalyserFactory.CreateMoodAnalyserParameterisedConstructor("MoodAnalyzer.AnalyzeMood", "AnalyzeMood", message);
-            //        MethodInfo methodInfo = type.GetMethod(methodName);
-            //        object mood = methodInfo.Invoke(moodAnalyseObject, null);
-            //        return mood.ToString();
-            //    }
-            //    catch (NullReferenceException)
-            //    {
-            //        throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.No_such_Method, "method not found");
-
-            //    }
         }
-
-
     }
-    
 }
